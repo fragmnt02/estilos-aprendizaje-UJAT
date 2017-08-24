@@ -1,0 +1,47 @@
+extends ./plantilla.jade
+block contenido
+	script(type="text/javascript" src="https://www.gstatic.com/charts/loader.js")
+
+	h1(class='col-md-12 text-center') Tu numero de alumno es:
+	each resultado in resultados
+		h2(class='col-md-12 text-center')= resultado.alumno
+		p(class='col-md-12 text-center') Guardalo porque lo usaras para consultar tus resultados, al salir del sistema.
+		div(class="row")
+			p(class="row" id='activo' style='display:none;')= resultado.cantActivo
+			p(class="row" id='reflexivo' style='display:none;')= resultado.cantReflexivo
+			p(class="row" id='teorico' style='display:none;')= resultado.cantTeorico
+			p(class="row" id='pragmatico' style='display:none;')= resultado.cantPragmatico
+		div(class="row")
+			div(class="col-md-12")
+				div(id="donut_single" style="display: block; width: 900px; height: 500px; margin: 0 auto;")
+		script.
+			google.charts.load('current', {'packages':['corechart']});
+			google.charts.setOnLoadCallback(drawChart);
+			function drawChart() {
+			console.log(document.getElementById('activo').innerHTML);
+			var acti=parseInt(document.getElementById('activo').innerHTML);
+			var refl=parseInt(document.getElementById('reflexivo').innerHTML);
+			var teor=parseInt(document.getElementById('teorico').innerHTML);
+			var prag=parseInt(document.getElementById('pragmatico').innerHTML);
+			console.log(acti+refl+teor+prag);
+				var data = google.visualization.arrayToDataTable([
+					['Aprendizaje', 'Respuestas'],
+					['Activo',acti],
+					['Reflexivo',refl],
+					['Teorico',teor],
+					['Pragmatico',prag]
+				]);
+				var options = {
+					pieHole: 0.5,
+					pieSliceTextStyle: {
+						color: 'black',
+					},
+					legend: 'yes'
+				};
+				var chart = new google.visualization.PieChart(document.getElementById('donut_single'));
+				chart.draw(data, options);
+			}
+		
+		
+
+

@@ -1,0 +1,33 @@
+extends ./plantilla.jade
+block contenido
+	div(class='container-fluid')
+		div(class='row')
+			h3(class='col-md-12 text-center') Instrucciones para responder al cuestionario:
+		ul(class='container-fluid')
+			div(class='col-md-12')
+				li Este cuestionario ha sido diseñado para identificar tu estilo preferido de aprender. No es un test de inteligencia, ni de personalidad.
+			div(class='col-md-12')
+				li No hay límite de tiempo para contestar el cuestionario.
+			div(class='col-md-12') 
+				li No hay respuestas correctas o erróneas. Será útil en la medida que seas sincero/a en tus respuestas.
+			div(class='col-md-12')
+				li Si estás más de acuerdo que en desacuerdo con la sentencia marca la casilla, por el contrario, estás más en desacuerdo que de acuerdo, dejala en blanco.
+			div(class='col-md-12')
+				li Por favor contesta a todas las sentencias.
+	form(class='form-group container-fluid' method='POST' action='/guardarResultados')
+		div(class='row')
+			label(class='control-label col-md-12') Selecciona tu grupo:
+		div(class='row')
+			select(class='form-control col-md-12' name='selectGrupo')
+				each grupo in grupos
+					option= grupo.texto
+		table(class='table table-hover')
+			each pregunta in preguntas
+				tr
+					td
+						input(type='checkbox' name='pr'+'#{pregunta.id}')
+					td= pregunta.texto
+		div(class='row')
+			p(class='col-md-4')
+			button(type='submit' class='btn btn-default col-md-4') Enviar
+			p(class='col-md-4')
